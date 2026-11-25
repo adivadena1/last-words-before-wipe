@@ -22,6 +22,12 @@ function validate(text: string): void {
     fail(`entry is ${text.length} chars, over the ${MAX_CHARS}-char limit`);
   }
   if (text.trim().length === 0) fail("entry is whitespace-only");
+  if (text !== text.trim()) {
+    fail("entry has leading or trailing whitespace (padding)");
+  }
+  if (/[\u0000-\u001f\u007f]/.test(text)) {
+    fail("entry contains control characters");
+  }
   if (text.includes("\n") || text.includes("\r")) {
     fail("entry must be a single line");
   }
